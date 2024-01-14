@@ -1,5 +1,5 @@
-import React from "react";
 import TicketCard from "./(components)/TicketCard";
+import Link from "next/link";
 
 const getTickets = async () => {
   try {
@@ -21,8 +21,15 @@ const Dashboard = async () => {
   const data = await getTickets();
 
   // Make sure we have tickets needed for production build.
-  if (!data?.tickets) {
-    return <p>No tickets.</p>;
+  if (!data.tickets.length) {
+    return [
+      // eslint-disable-next-line react/jsx-key
+      <h3 className="flex justify-center">No tickets</h3>,
+      // eslint-disable-next-line react/jsx-key
+      <Link className="flex justify-center" href="/TicketPage/new">
+        <input type="submit" className="btn max-w-xs" value="Create Ticket" />
+      </Link>,
+    ];
   }
 
   const tickets = data.tickets;
